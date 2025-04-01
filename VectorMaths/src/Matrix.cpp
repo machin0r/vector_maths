@@ -1,4 +1,6 @@
 #include "../include/Matrix.hpp"
+#include "../include/Quaternion.hpp"
+
 #include <cmath>
 
 // Mat3
@@ -9,6 +11,24 @@ Vec3 Mat3::operator*(const Vec3& other) const {
 	float z = Vec3(m[6], m[7], m[8]).dot(other);
 
 	return Vec3(x, y, z);
+}
+
+Mat3 Mat3::operator*(const Mat3& other) const {
+	float result[9];
+
+	Vec3 otherCol0(other.m[0], other.m[3], other.m[6]);
+	Vec3 otherCol1(other.m[1], other.m[4], other.m[7]);
+	Vec3 otherCol2(other.m[2], other.m[5], other.m[8]);
+
+	Vec3 resultCol0 = (*this) * otherCol0;
+	Vec3 resultCol1 = (*this) * otherCol1;
+	Vec3 resultCol2 = (*this) * otherCol2;
+
+	result[0] = resultCol0.x; result[1] = resultCol1.x; result[2] = resultCol2.x;
+	result[3] = resultCol0.y; result[4] = resultCol1.y; result[5] = resultCol2.y;
+	result[6] = resultCol0.z; result[7] = resultCol1.z; result[8] = resultCol2.z;
+
+	return Mat3(result);
 }
 
 Mat3 Mat3::transpose() const {
@@ -66,7 +86,11 @@ Mat4 Mat4::translation(const Vec3& translation) {
 }
 
 
-Mat4 Mat4::rotation(const Quaternion& rotation);
+Mat4 Mat4::rotation(const Quaternion& rotation) {
+	Mat4 rotation_matrix = rotation.toRotationMatrix();
+
+	return *this * rotation_matrix;
+}
 
 
 Mat4 Mat4::scale(const Vec3& scale) {
@@ -83,8 +107,8 @@ Mat4 Mat4::scale(const Vec3& scale) {
 }
 
 
-Mat4 Mat4::perspective(float fov, float aspect, float near, float far);
-Mat4 Mat4::lookAt(const Vec3& eye, const Vec3& target, const Vec4& up);
+// Mat4 Mat4::perspective(float fov, float aspect, float near, float far);
+// Mat4 Mat4::lookAt(const Vec3& eye, const Vec3& target, const Vec4& up);
 
 
 float Mat4::calculate_minor_determinant(const Mat4& matrix, int row, int column)

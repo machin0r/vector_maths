@@ -8,8 +8,13 @@ public:
 	Vec2();
 	Vec2(float x, float y);
 
+	// Basic operations
 	inline Vec2 operator+(const Vec2& other) const {
 		return Vec2(x + other.x, y + other.y);
+	}
+
+	inline Vec2 operator-(const Vec2& other) const {
+		return Vec2(x +-other.x, y - other.y);
 	}
 
 	template<typename T>
@@ -32,8 +37,7 @@ public:
 		return vec / scalar;
 	}
 
-
-
+	// Utility functions
 	float length() const;
 	Vec2 normalised() const;
 	float dot(const Vec2& other) const;
@@ -51,6 +55,15 @@ public:
 	// Constructors
 	Vec3();
 	Vec3(float x, float y, float z);
+
+	// Basic operations
+	inline Vec3 operator+(const Vec3& other) const {
+		return Vec3(x + other.x, y + other.y, z + other.z);
+	}
+
+	inline Vec3 operator-(const Vec3& other) const {
+		return Vec3(x + -other.x, y - other.y, z - other.z);
+	}
 
 	template<typename T>
 	inline Vec3 operator*(const T scalar) const {
@@ -72,7 +85,7 @@ public:
 		return vec / scalar;
 	}
 
-
+	// Utility functions
 	float length() const;
 	Vec3 normalised() const;
 	float dot(const Vec3& other) const;
@@ -90,6 +103,15 @@ public:
 	// Constructors
 	Vec4();
 	Vec4(float x, float y, float z, float w);
+
+	// Basic operations
+	inline Vec4 operator+(const Vec4& other) const {
+		return Vec4(x + other.x, y + other.y, z + other.z, w + other.w);
+	}
+
+	inline Vec4 operator-(const Vec4& other) const {
+		return Vec4(x + -other.x, y - other.y, z - other.z, w - other.w);
+	}
 
 	template<typename T>
 	inline Vec4 operator*(const T scalar) const {
@@ -111,6 +133,7 @@ public:
 		return vec / scalar;
 	}
 
+	// Utility functions
 	float length() const;
 	Vec4 normalised() const;
 	float dot(const Vec4& other) const;
