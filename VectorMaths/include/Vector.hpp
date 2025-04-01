@@ -1,0 +1,78 @@
+#pragma once
+
+class Vec2 {
+public:
+	float x, y;
+
+	// Constructors
+	Vec2();
+	Vec2(float x, float y);
+
+	inline Vec2 operator+(const Vec2& other) const {
+		return Vec2(x + other.x, y + other.y);
+	}
+
+	inline Vec2 operator-(const Vec2& other) const {
+		return Vec2(x - other.x, y - other.y);
+	}
+
+	float length() const;
+	Vec2 normalised() const;
+	float dot(const Vec2& other) const;
+	float cross(const Vec2& other) const;
+
+	static Vec2 lerp(const Vec2& a, const Vec2& b, float t);
+	static float distance(const Vec2& a, const Vec2& b);
+
+};
+
+class Vec3 {
+public:
+	float x, y, z;
+
+	// Constructors
+	Vec3();
+	Vec3(float x, float y, float z);
+
+	inline Vec3 operator+(const Vec3& other) const {
+		return Vec3(x + other.x, y + other.y, z + other.z);
+	}
+
+	inline Vec3 operator-(const Vec3& other) const {
+		return Vec3(x - other.x, y - other.y, z - other.z);
+	}
+
+	float length() const;
+	Vec3 normalised() const;
+	float dot(const Vec3& other) const;
+	Vec3 cross(const Vec3& other) const;
+
+	static Vec3 lerp(const Vec3& a, const Vec3& b, float t);
+	static float distance(const Vec3& a, const Vec3& b);
+
+};
+
+class Vec4 {
+public:
+	float x, y, z, w;
+
+	// Constructors
+	Vec4();
+	Vec4(float x, float y, float z, float w);
+
+	inline Vec4 operator+(const Vec4& other) const {
+		return Vec4(x + other.x, y + other.y, z + other.z, w + other.w);
+	}
+
+	inline Vec4 operator-(const Vec4& other) const {
+		return Vec4(x - other.x, y - other.y, z - other.z, w - other.w);
+	}
+
+	float length() const;
+	Vec4 normalised() const;
+	float dot(const Vec4& other) const;
+
+	static Vec4 lerp(const Vec4& a, const Vec4& b, float t);
+	static float distance(const Vec4& a, const Vec4& b);
+
+};
