@@ -3,31 +3,6 @@
 
 // Mat3
 
-Mat3 Mat3::operator*(const float& scalar) const {
-	float result[9];
-
-	for (int i = 0; i < 9; i++) {
-		result[i] = m[i] * scalar;
-	}
-
-	return Mat3(result);
-}
-
-Mat3 Mat3::operator*(const Mat3& other) const {
-	float result[9];
-
-	for (int i = 0; i < 3; i++)
-	{
-		for (int j = 0; j < 3; j++)
-		{
-			float dot_product = Vec3(m[(i * 3)], m[(i * 3) + 1], m[(i * 3) + 2])
-				.dot(Vec3(other.m[j], other.m[j + 3], other.m[j + 6]));
-			result[((i * 3) + j)] = dot_product;
-		}
-	}
-	return Mat3(result);
-}
-
 Vec3 Mat3::operator*(const Vec3& other) const {
 	float x = Vec3(m[0], m[1], m[2]).dot(other);
 	float y = Vec3(m[3], m[4], m[5]).dot(other);
@@ -55,16 +30,6 @@ float Mat3::determinant(const Mat3& matrix) {
 }
 
 // Mat4
-Mat4 Mat4::operator*(const float& scalar) const {
-	float result[16];
-
-	for (int i = 0; i < 16; i++) {
-		result[i] = m[i] * scalar;
-	}
-
-	return Mat4(result);
-}
-
 Mat4 Mat4::operator*(const Mat4& other) const {	
 	float result[16];
 

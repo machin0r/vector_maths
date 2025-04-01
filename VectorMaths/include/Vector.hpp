@@ -12,9 +12,27 @@ public:
 		return Vec2(x + other.x, y + other.y);
 	}
 
-	inline Vec2 operator-(const Vec2& other) const {
-		return Vec2(x - other.x, y - other.y);
+	template<typename T>
+	inline Vec2 operator*(const T scalar) const {
+		return Vec2(x * scalar, y * scalar);
 	}
+
+	template<typename T>
+	inline Vec2 operator/(const T scalar) const {
+		return Vec2(x / scalar, y / scalar);
+	}
+
+	template<typename T>
+	friend inline Vec2 operator*(const T scalar, const Vec2& vec) {
+		return vec * scalar;
+	}
+
+	template<typename T>
+	friend inline Vec2 operator/(const T scalar, const Vec2& vec) {
+		return vec / scalar;
+	}
+
+
 
 	float length() const;
 	Vec2 normalised() const;
@@ -34,13 +52,26 @@ public:
 	Vec3();
 	Vec3(float x, float y, float z);
 
-	inline Vec3 operator+(const Vec3& other) const {
-		return Vec3(x + other.x, y + other.y, z + other.z);
+	template<typename T>
+	inline Vec3 operator*(const T scalar) const {
+		return Vec3(x * scalar, y * scalar, z * scalar);
 	}
 
-	inline Vec3 operator-(const Vec3& other) const {
-		return Vec3(x - other.x, y - other.y, z - other.z);
+	template<typename T>
+	inline Vec3 operator/(const T scalar) const {
+		return Vec3(x / scalar, y / scalar, z / scalar);
 	}
+
+	template<typename T>
+	friend inline Vec3 operator*(const T scalar, const Vec3& vec) {
+		return vec * scalar;
+	}
+
+	template<typename T>
+	friend inline Vec3 operator/(const T scalar, const Vec3& vec) {
+		return vec / scalar;
+	}
+
 
 	float length() const;
 	Vec3 normalised() const;
@@ -60,12 +91,24 @@ public:
 	Vec4();
 	Vec4(float x, float y, float z, float w);
 
-	inline Vec4 operator+(const Vec4& other) const {
-		return Vec4(x + other.x, y + other.y, z + other.z, w + other.w);
+	template<typename T>
+	inline Vec4 operator*(const T scalar) const {
+		return Vec4(x * scalar, y * scalar, z * scalar, w * scalar);
 	}
 
-	inline Vec4 operator-(const Vec4& other) const {
-		return Vec4(x - other.x, y - other.y, z - other.z, w - other.w);
+	template<typename T>
+	inline Vec4 operator/(const T scalar) const {
+		return Vec4(x / scalar, y / scalar, z / scalar, w / scalar);
+	}
+
+	template<typename T>
+	friend inline Vec4 operator*(const T scalar, const Vec4& vec) {
+		return vec * scalar;
+	}
+
+	template<typename T>
+	friend inline Vec4 operator/(const T scalar, const Vec4& vec) {
+		return vec / scalar;
 	}
 
 	float length() const;

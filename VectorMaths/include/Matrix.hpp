@@ -8,7 +8,39 @@ public:
 	Mat3();
 	Mat3(float[9]);
 
-	Mat3 operator*(const float& scalar) const;
+	template<typename T>
+	inline Mat3 operator*(const T& scalar) const {
+		float result[9];
+
+		for (int i = 0; i < 9; i++) {
+			result[i] = m[i] * scalar;
+		}
+
+		return Mat3(result);
+	}
+
+	template<typename T>
+	friend inline Mat3 operator*(const T& scalar, const Mat3& mat) {
+		return mat * scalar;
+	}
+
+	template<typename T>
+	inline Mat3 operator/(const T& scalar) const {
+		float result[9];
+
+		for (int i = 0; i < 9; i++) {
+			result[i] = m[i] / scalar;
+		}
+
+		return Mat3(result);
+	}
+
+	template<typename T>
+	friend inline Mat3 operator/(const T& scalar, const Mat3& mat) {
+		return mat / scalar;
+	}
+
+
 	Mat3 operator*(const Mat3& other) const;
 	Vec3 operator*(const Vec3& other) const;
 
@@ -25,7 +57,39 @@ public:
 	Mat4();
 	Mat4(float[16]);
 
-	Mat4 operator*(const float& scalar) const;
+	template<typename T>
+	inline Mat4 operator*(const T& scalar) const {
+		float result[16];
+
+		for (int i = 0; i < 16; i++) {
+			result[i] = m[i] * scalar;
+		}
+
+		return Mat4(result);
+	}
+
+	template<typename T>
+	friend inline Mat4 operator*(const T& scalar, const Mat4& mat) {
+		return mat * scalar;
+	}
+
+	template<typename T>
+	inline Mat4 operator/(const T& scalar) const {
+		float result[16];
+
+		for (int i = 0; i < 16; i++) {
+			result[i] = m[i] / scalar;
+		}
+
+		return Mat4(result);
+	}
+
+	template<typename T>
+	friend inline Mat4 operator/(const T& scalar, const Mat4& mat) {
+		return mat / scalar;
+	}
+
+
 	Mat4 operator*(const Mat4& other) const;
 	Vec4 operator*(const Vec4& other) const;
 
