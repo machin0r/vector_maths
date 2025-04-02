@@ -102,7 +102,7 @@ public:
 
 	// Utility functions
 	Mat4 translation(const Vec3& translation);
-	Mat4 rotation(const Quaternion& rotation);
+	// Mat4 rotation(const Quaternion& rotation);
 	Mat4 scale(const Vec3& scale);
 	//Mat4 perspective(float fov, float aspect, float near, float far);
 	//Mat4 lookAt(const Vec3& eye, const Vec3& target, const Vec4& up);

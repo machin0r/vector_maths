@@ -14,7 +14,7 @@ public:
 	}
 
 	inline Vec2 operator-(const Vec2& other) const {
-		return Vec2(x +-other.x, y - other.y);
+		return Vec2(x - other.x, y - other.y);
 	}
 
 	template<typename T>
@@ -62,7 +62,7 @@ public:
 	}
 
 	inline Vec3 operator-(const Vec3& other) const {
-		return Vec3(x + -other.x, y - other.y, z - other.z);
+		return Vec3(x -other.x, y - other.y, z - other.z);
 	}
 
 	template<typename T>
@@ -110,7 +110,7 @@ public:
 	}
 
 	inline Vec4 operator-(const Vec4& other) const {
-		return Vec4(x + -other.x, y - other.y, z - other.z, w - other.w);
+		return Vec4(x - other.x, y - other.y, z - other.z, w - other.w);
 	}
 
 	template<typename T>

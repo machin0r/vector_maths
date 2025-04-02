@@ -1,6 +1,7 @@
 #pragma once
 #include "Vector.hpp"
-#include "Matrix.hpp"
+
+class Mat4;
 
 class Quaternion {
 public:
@@ -32,7 +33,7 @@ public:
     static Quaternion fromEulerAngles(float pitch, float yaw, float roll);
 
     // Rotation functions
-    Vec3 rotateVector(const Vec3& v) const;
+    // Vec3 rotateVector(const Vec3& v) const;
 
     // Interpolation
     static Quaternion slerp(const Quaternion& a, const Quaternion& b, float t);

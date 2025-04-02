@@ -1,3 +1,15 @@
+# Build directories
+build/
+out/
+CMakeFiles/
+.vs/
+
+# CMake files
+CMakeCache.txt
+cmake_install.cmake
+*.dir/
+
+
 # Visual Studio files
 .vs/
 *.suo
@@ -9,6 +21,13 @@
 *.ilk
 *.aps
 *.ipch/
+*.sln
+*.vcxproj*
+*.user
+*.filters
+*.suo
+*.db
+ipch/
 
 # Build results
 [Dd]ebug/

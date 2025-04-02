@@ -1,4 +1,7 @@
 #include "../include/Quaternion.hpp"
+#include "../include/Vector.hpp"
+#include "../include/Matrix.hpp"
+
 #include <cmath>
 
 // Quaternion

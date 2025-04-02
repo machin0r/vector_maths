@@ -86,11 +86,11 @@ Mat4 Mat4::translation(const Vec3& translation) {
 }
 
 
-Mat4 Mat4::rotation(const Quaternion& rotation) {
-	Mat4 rotation_matrix = rotation.toRotationMatrix();
-
-	return *this * rotation_matrix;
-}
+//Mat4 Mat4::rotation(const Quaternion& rotation) {
+//	Mat4 rotation_matrix = rotation.toRotationMatrix();
+//
+//	return *this * rotation_matrix;
+//}
 
 
 Mat4 Mat4::scale(const Vec3& scale) {
