@@ -12,15 +12,36 @@ public:
     Quaternion(float w, float x, float y, float z);
 
     // Basic operations
-    Quaternion operator+(const Quaternion& q) const;
+    template<typename T>
+    inline Quaternion operator*(const T scalar) const {
+        return Quaternion(w * scalar, x * scalar, y * scalar, z * scalar);
+    }
+
+    template<typename T>
+    inline Quaternion operator/(const T scalar) const {
+        return Quaternion(w / scalar, x / scalar, y / scalar, z / scalar);
+    }
+
+    template<typename T>
+    friend inline Quaternion operator*(const T scalar, const Quaternion& q) {
+        return q * scalar;
+    }
+
+    template<typename T>
+    friend inline Quaternion operator/(const T scalar, const Quaternion& q) {
+        return q / scalar;
+    }
+
+    Quaternion operator+(const Quaternion q) const {
+        return Quaternion(w + q.w, x + q.x, y + q.y, z + q.z);
+    }
+
     Quaternion operator*(const Quaternion& q) const; // Quaternion multiplication
-    Quaternion operator*(float scalar) const;
-    Quaternion operator/(float scalar) const;
 
     // Utility functions
     float length() const;
 
-    Quaternion normalise() const;
+    Quaternion normalised() const;
     inline Quaternion conjugate() const {
         return Quaternion(w, -x, -y, -z);
     }
@@ -33,7 +54,7 @@ public:
     static Quaternion fromEulerAngles(float pitch, float yaw, float roll);
 
     // Rotation functions
-    // Vec3 rotateVector(const Vec3& v) const;
+    Vec3 rotateVector(const Vec3& v) const;
 
     // Interpolation
     static Quaternion slerp(const Quaternion& a, const Quaternion& b, float t);

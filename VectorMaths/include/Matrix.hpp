@@ -38,11 +38,6 @@ public:
 		return Mat3(result);
 	}
 
-	template<typename T>
-	friend inline Mat3 operator/(const T& scalar, const Mat3& mat) {
-		return mat / scalar;
-	}
-
 
 	Vec3 operator*(const Vec3& other) const;
 	Mat3 operator*(const Mat3& other) const;
@@ -50,6 +45,9 @@ public:
 
 	// Utility functions
 	Mat3 transpose() const;
+
+	float at(int row, int col) const;
+
 
 	static float determinant(const Mat3& matrix);
 
@@ -91,18 +89,17 @@ public:
 		return Mat4(result);
 	}
 
-	template<typename T>
-	friend inline Mat4 operator/(const T& scalar, const Mat4& mat) {
-		return mat / scalar;
-	}
-
 
 	Mat4 operator*(const Mat4& other) const;
 	Vec4 operator*(const Vec4& other) const;
 
 	// Utility functions
 	Mat4 translation(const Vec3& translation);
-	// Mat4 rotation(const Quaternion& rotation);
+	Mat4 local_rotation(const Quaternion& rotation);
+	Mat4 world_rotation(const Quaternion& rotation);
+
+	float at(int row, int col) const;
+
 	Mat4 scale(const Vec3& scale);
 	//Mat4 perspective(float fov, float aspect, float near, float far);
 	//Mat4 lookAt(const Vec3& eye, const Vec3& target, const Vec4& up);

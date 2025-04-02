@@ -2,6 +2,9 @@
 #include <cmath>
 
 // Vec2
+Vec2::Vec2() : x(0.0f), y(0.0f) {}
+Vec2::Vec2(float x, float y) : x(x), y(y) {}
+
 float Vec2::length() const {
 	return std::sqrt((x * x) + (y * y));
 }
@@ -37,6 +40,9 @@ float Vec2::distance(const Vec2& a, const Vec2& b) {
 }
 
 // Vec3
+Vec3::Vec3() : x(0.0f), y(0.0f), z(0.0f) {}
+Vec3::Vec3(float x, float y, float z) : x(x), y(y), z(z) {}
+
 float Vec3::length() const {
 	return std::sqrt((x * x) + (y * y) + (z * z));
 }
@@ -75,6 +81,9 @@ float Vec3::distance(const Vec3& a, const Vec3& b) {
 }
 
 // Vec4
+Vec4::Vec4() : x(0.0f), y(0.0f), z(0.0f), w(0.0f) {}
+Vec4::Vec4(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {}
+
 float Vec4::length() const {
 	return std::sqrt((x * x) + (y * y) + (z * z) + (w * w));
 }
