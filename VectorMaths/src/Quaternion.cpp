@@ -66,6 +66,46 @@ Quaternion Quaternion::fromEulerAngles(float pitch, float yaw, float roll) {
 	return Quaternion(w, x, y, z);
 }
 
+Quaternion Quaternion::fromRotationMatrix(Mat3 rotMat) {
+	float w, x, y, z;
+
+	float trace = rotMat.m[0] + rotMat.m[4] + rotMat.m[8];
+
+	if (trace > 0) {
+		w = std::sqrt((trace + 1) / 2);
+		x = (rotMat.m[5] - rotMat.m[7]) / (4 * w);
+		y = (rotMat.m[6] - rotMat.m[2]) / (4 * w);
+		z = (rotMat.m[1] - rotMat.m[3]) / (4 * w);
+	}
+	else {
+		if ((rotMat.m[0] > rotMat.m[4]) && (rotMat.m[0] > rotMat.m[8])) {
+			x = std::sqrt((1 + (rotMat.m[0] - rotMat.m[4] - rotMat.m[8])) / 2);
+			y = (rotMat.m[3] + rotMat.m[1]) / (4 * x);
+			z = (rotMat.m[6] + rotMat.m[2]) / (4 * x);
+			w = (rotMat.m[5] - rotMat.m[7]) / (4 * x);
+
+		}
+		else if (rotMat.m[4] > rotMat.m[8]) {
+			y = std::sqrt((1 + (rotMat.m[4] - rotMat.m[0] - rotMat.m[8])) / 2);
+			z = (rotMat.m[7] + rotMat.m[5]) / (4 * y);
+			w = (rotMat.m[6] - rotMat.m[2]) / (4 * y);
+			x = (rotMat.m[3] + rotMat.m[1]) / (4 * y);
+		}
+		else {
+			z = std::sqrt((1 + (rotMat.m[8] - rotMat.m[0] - rotMat.m[4])) / 2);
+			w = (rotMat.m[1] - rotMat.m[3]) / (4 * z);
+			x = (rotMat.m[6] + rotMat.m[2]) / (4 * z);
+			y = (rotMat.m[7] + rotMat.m[5]) / (4 * z);
+		}
+	}
+
+	Quaternion rotationQuaternion(w, x, y, z);
+	rotationQuaternion = rotationQuaternion.normalised();
+
+	return rotationQuaternion;
+}
+
+
 Vec3 Quaternion::rotateVector(const Vec3& v) const {
 	Quaternion unit_quat = normalised();
 

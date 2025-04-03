@@ -1,6 +1,7 @@
 #pragma once
 #include "Vector.hpp"
 
+class Mat3;
 class Mat4;
 
 class Quaternion {
@@ -52,6 +53,8 @@ public:
     Mat4 toRotationMatrix() const;
     Vec3 toEulerAngles() const;
     static Quaternion fromEulerAngles(float pitch, float yaw, float roll);
+    static Quaternion fromRotationMatrix(Mat3 rotMat);
+
 
     // Rotation functions
     Vec3 rotateVector(const Vec3& v) const;
