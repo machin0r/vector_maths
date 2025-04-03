@@ -150,9 +150,43 @@ Mat4 Mat4::scale(const Vec3& scale) {
 }
 
 
-// Mat4 Mat4::perspective(float fov, float aspect, float near, float far);
-// Mat4 Mat4::lookAt(const Vec3& eye, const Vec3& target, const Vec4& up);
+Mat4 Mat4::perspective(float fov, float aspect, float near, float far) {
+	float tanHalfFov = std::tan(fov * 0.5f);
 
+	float result[16];
+	// Init to 0s
+	for (int i = 0; i < 16; i++) {
+		result[i] = 0.0f;
+	}
+
+	result[0] = 1.0f / (aspect * tanHalfFov);  // Scale X
+	result[5] = 1.0f / tanHalfFov; // Scale Y
+	result[10] = -(far + near) / (far - near); // Scale and translate Z
+	result[11] = -1.0f;
+	result[14] = -(2.0f * far * near) / (far - near);  // Translate Z
+
+	Mat4 perspectiveMatrix(result);
+	return perspectiveMatrix;
+}
+
+Mat4 Mat4::lookAt(const Vec3& eye, const Vec3& target, const Vec3& up) {
+	Vec3 forward = (eye - target).normalised();
+	Vec3 right = up.cross(forward).normalised();
+	Vec3 newUp = forward.cross(right);
+
+	float viewMatVals[16] = {
+		right.x, newUp.x, forward.x, 0.0f,
+		right.y, newUp.y, forward.y, 0.0f,
+		right.z, newUp.z, forward.z, 0.0f,
+		0.0f,0.0f,0.0f,1.0f
+	};
+
+	Mat4 viewMatrix(viewMatVals);
+
+	viewMatrix = viewMatrix.translation(Vec3(-eye.x, -eye.y, -eye.z));
+
+	return viewMatrix;
+}
 
 float Mat4::calculate_minor_determinant(const Mat4& matrix, int row, int column)
 {

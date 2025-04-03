@@ -101,8 +101,8 @@ public:
 	float at(int row, int col) const;
 
 	Mat4 scale(const Vec3& scale);
-	//Mat4 perspective(float fov, float aspect, float near, float far);
-	//Mat4 lookAt(const Vec3& eye, const Vec3& target, const Vec4& up);
+	Mat4 perspective(float fov, float aspect, float near, float far);
+	Mat4 lookAt(const Vec3& eye, const Vec3& target, const Vec3& up);
 
 	Mat4 inverse() const;
 	Mat4 transpose() const;
