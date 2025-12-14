@@ -9,6 +9,7 @@ set(SOURCES
     src/Matrix.cpp
     src/Quaternion.cpp
     src/Transform.cpp
+    src/Collision.cpp
 )
 
 # Add header files
@@ -17,6 +18,7 @@ set(HEADERS
     include/Matrix.hpp
     include/Quaternion.hpp
     include/Transform.hpp
+    include/Collision.hpp
 )
 
 # Create library
