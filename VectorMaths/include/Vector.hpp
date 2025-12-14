@@ -1,6 +1,7 @@
 #pragma once
 #include <cmath>
 #include <iostream>
+#include <cassert> 
 
 class Vec2 {
 public:
@@ -26,6 +27,7 @@ public:
 
 	template<typename T>
 	inline Vec2 operator/(const T scalar) const {
+		assert(scalar != 0 && "Division by zero in Vec2::operator/");
 		return Vec2(x / scalar, y / scalar);
 	}
 
@@ -87,6 +89,7 @@ public:
 
 	template<typename T>
 	inline Vec3 operator/(const T scalar) const {
+		assert(scalar != 0 && "Division by zero in Vec3::operator/");
 		return Vec3(x / scalar, y / scalar, z / scalar);
 	}
 
@@ -148,6 +151,7 @@ public:
 
 	template<typename T>
 	inline Vec4 operator/(const T scalar) const {
+		assert(scalar != 0 && "Division by zero in Vec4::operator/");
 		return Vec4(x / scalar, y / scalar, z / scalar, w / scalar);
 	}
 

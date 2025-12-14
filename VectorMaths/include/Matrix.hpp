@@ -1,7 +1,9 @@
 #pragma once
 #include "Vector.hpp"
 #include "Quaternion.hpp"
+
 #include <cmath>
+#include <cassert> 
 
 class Mat3 {
 public:
@@ -30,6 +32,7 @@ public:
 
 	template<typename T>
 	inline Mat3 operator/(const T& scalar) const {
+		assert(scalar != 0 && "Division by zero in Mat3::operator/");
 		float result[9];
 
 		for (int i = 0; i < 9; i++) {
@@ -102,6 +105,7 @@ public:
 
 	template<typename T>
 	inline Mat4 operator/(const T& scalar) const {
+		assert(scalar != 0 && "Division by zero in Mat4::operator/");
 		float result[16];
 
 		for (int i = 0; i < 16; i++) {

@@ -1,6 +1,8 @@
 #pragma once
 #include "Vector.hpp"
 
+#include <cassert> 
+
 class Mat3;
 class Mat4;
 
@@ -25,6 +27,7 @@ public:
 
     template<typename T>
     inline Quaternion operator/(const T scalar) const {
+        assert(scalar != 0 && "Division by zero in Quaternion::operator/");
         return Quaternion(w / scalar, x / scalar, y / scalar, z / scalar);
     }
 
@@ -35,6 +38,7 @@ public:
 
     template<typename T>
     friend inline Quaternion operator/(const T scalar, const Quaternion& q) {
+        assert(scalar != 0 && "Division by zero in Quaternion::operator/");
         return q / scalar;
     }
 
