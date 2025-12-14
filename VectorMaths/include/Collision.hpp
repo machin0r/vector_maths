@@ -33,3 +33,16 @@ public:
 	AABB merge(const AABB& other);
 
 };
+
+class Sphere {
+public:
+	Vec3 center;
+	float radius;
+
+	// Constructors
+	Sphere();
+	Sphere(const Vec3& center, const float radius);
+
+	// Operations
+	bool contains(const Vec3& point) const;
+};

@@ -59,3 +59,14 @@ AABB AABB::merge(const AABB& other) {
 	return AABB(minVec, maxVec);
 }
 
+
+Sphere::Sphere() : center(0.0f, 0.0f, 0.0f), radius(1.0f) {}
+
+Sphere::Sphere(const Vec3& center, const float radius)
+	: center(center),
+	radius(radius) {
+}
+
+bool Sphere::contains(const Vec3& point) const {
+	return (point - center).length() <= radius;
+}
