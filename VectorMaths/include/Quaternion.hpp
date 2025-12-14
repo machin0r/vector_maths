@@ -4,6 +4,11 @@
 class Mat3;
 class Mat4;
 
+struct AxisAngle {
+    Vec3 axis;
+    float angle;
+};
+
 class Quaternion {
 public:
     float w, x, y, z;
@@ -72,7 +77,9 @@ public:
     Vec3 toEulerAngles() const;
     static Quaternion fromEulerAngles(float pitch, float yaw, float roll);
     static Quaternion fromRotationMatrix(Mat3 rotMat);
-
+    static Quaternion fromAxisAngle(const AxisAngle& aa);
+    static Quaternion fromAxisAngle(const Vec3& axis, float angle);
+    AxisAngle toAxisAngle() const;
 
     // Rotation functions
     Vec3 rotateVector(const Vec3& v) const;

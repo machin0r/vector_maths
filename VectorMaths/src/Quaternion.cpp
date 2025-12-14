@@ -105,6 +105,49 @@ Quaternion Quaternion::fromRotationMatrix(Mat3 rotMat) {
 	return rotationQuaternion;
 }
 
+Quaternion Quaternion::fromAxisAngle(const AxisAngle& aa) {
+	Vec3 normalisedAxis = aa.axis.normalised();
+	float angle = aa.angle;
+
+	float x = normalisedAxis.x * std::sin(angle / 2);
+	float y = normalisedAxis.y * std::sin(angle / 2);
+	float z = normalisedAxis.z * std::sin(angle / 2);
+	float w = std::cos(angle / 2);
+
+	Quaternion quaternion(w, x, y, z);
+	quaternion = quaternion.normalised();
+
+	return quaternion;
+}
+
+Quaternion Quaternion::fromAxisAngle(const Vec3& axis, float angle) {
+	return fromAxisAngle(AxisAngle{ axis, angle });
+}
+
+AxisAngle Quaternion::toAxisAngle() const {
+	Quaternion q = normalised();
+
+	AxisAngle result;
+	result.angle = 2.0f * std::acos(q.w);
+
+	float sinHalfAngle = std::sqrt(1.0f - q.w * q.w);
+
+	if (sinHalfAngle < 0.0001f) {
+		result.axis = Vec3(1.0f, 0.0f, 0.0f);
+	}
+	else {
+		result.axis = Vec3(
+			q.x / sinHalfAngle,
+			q.y / sinHalfAngle,
+			q.z / sinHalfAngle
+		);
+	}
+
+	return result;
+
+}
+
+
 
 Vec3 Quaternion::rotateVector(const Vec3& v) const {
 	Quaternion unit_quat = normalised();
