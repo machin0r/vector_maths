@@ -169,6 +169,20 @@ Mat4 Mat4::perspective(float fov, float aspect, float near, float far) {
 	return perspectiveMatrix;
 }
 
+Mat4 Mat4::ortho(const float& left, const float& right, const float& bottom, const float& top, const float& near, const float& far) {
+
+	float orthoTransformVals[16] = {
+		(2 / (right - left)), 0.0f, 0.0f, 0.0f,
+		0.0f, (2 / (top - bottom)), 0.0f, 0.0f,
+		0.0f, 0.0f, (-2 / (far - near)), 0.0f,
+		 -((right + left) / (right - left)), -((top + bottom) / (top - bottom)), -((far + near) / (far - near)),1.0f
+	};
+
+	Mat4 orthoMatrix(orthoTransformVals);
+
+	return orthoMatrix;
+}
+
 Mat4 Mat4::lookAt(const Vec3& eye, const Vec3& target, const Vec3& up) {
 	Vec3 forward = (eye - target).normalised();
 	Vec3 right = up.cross(forward).normalised();
