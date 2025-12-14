@@ -1,4 +1,5 @@
 #pragma once
+#include <cmath>
 
 class Vec2 {
 public:
@@ -25,6 +26,15 @@ public:
 	template<typename T>
 	inline Vec2 operator/(const T scalar) const {
 		return Vec2(x / scalar, y / scalar);
+	}
+
+	inline bool operator==(const Vec2& other) const {
+		float epsilon = 0.0001f;
+		return std::abs(x - other.x) < epsilon && std::abs(y - other.y) < epsilon;
+	}
+
+	inline bool operator!=(const Vec2& other) const {
+		return !(*this == other);
 	}
 
 	template<typename T>
@@ -75,6 +85,15 @@ public:
 		return Vec3(x / scalar, y / scalar, z / scalar);
 	}
 
+	inline bool operator==(const Vec3& other) const {
+		float epsilon = 0.0001f;
+		return std::abs(x - other.x) < epsilon && std::abs(y - other.y) < epsilon && std::abs(z - other.z) < epsilon;
+	}
+
+	inline bool operator!=(const Vec3& other) const {
+		return !(*this == other);
+	}
+
 	template<typename T>
 	friend inline Vec3 operator*(const T scalar, const Vec3& vec) {
 		return vec * scalar;
@@ -121,6 +140,15 @@ public:
 	template<typename T>
 	inline Vec4 operator/(const T scalar) const {
 		return Vec4(x / scalar, y / scalar, z / scalar, w / scalar);
+	}
+
+	inline bool operator==(const Vec4& other) const {
+		float epsilon = 0.0001f;
+		return std::abs(x - other.x) < epsilon && std::abs(y - other.y) < epsilon && std::abs(z - other.z) < epsilon && std::abs(w - other.w) < epsilon;
+	}
+
+	inline bool operator!=(const Vec4& other) const {
+		return !(*this == other);
 	}
 
 	template<typename T>

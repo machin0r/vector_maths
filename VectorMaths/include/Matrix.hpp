@@ -1,6 +1,7 @@
 #pragma once
 #include "Vector.hpp"
 #include "Quaternion.hpp"
+#include <cmath>
 
 class Mat3 {
 public:
@@ -36,6 +37,20 @@ public:
 		}
 
 		return Mat3(result);
+	}
+
+	inline bool operator==(const Mat3& other) const {
+		float epsilon = 0.0001f;
+		for (int i = 0; i < 9; i++) {
+			if (std::abs(m[i] - other.m[i]) > epsilon) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	inline bool operator!=(const Mat3& other) const {
+		return !(*this == other);
 	}
 
 
@@ -87,6 +102,20 @@ public:
 		}
 
 		return Mat4(result);
+	}
+
+	inline bool operator==(const Mat4& other) const {
+		float epsilon = 0.0001f;
+		for (int i = 0; i < 16; i++) {
+			if (std::abs(m[i] - other.m[i]) > epsilon) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	inline bool operator!=(const Mat4& other) const {
+		return !(*this == other);
 	}
 
 

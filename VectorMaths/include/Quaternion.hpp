@@ -37,6 +37,20 @@ public:
         return Quaternion(w + q.w, x + q.x, y + q.y, z + q.z);
     }
 
+    inline bool operator==(const Quaternion& q) const {
+        // Mathematically, quaternions q and -q represent the same rotation.
+        float epsilon = 0.0001f;
+        bool same = std::abs(w - q.w) < epsilon && std::abs(x - q.x) < epsilon &&
+            std::abs(y - q.y) < epsilon && std::abs(z - q.z) < epsilon;
+        bool opposite = std::abs(w + q.w) < epsilon && std::abs(x + q.x) < epsilon &&
+            std::abs(y + q.y) < epsilon && std::abs(z + q.z) < epsilon;
+        return same || opposite;
+    }
+
+    inline bool operator!=(const Quaternion& q) const {
+        return !(*this == q);
+    }
+
     Quaternion operator*(const Quaternion& q) const; // Quaternion multiplication
 
     // Utility functions
