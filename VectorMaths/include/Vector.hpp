@@ -1,5 +1,6 @@
 #pragma once
 #include <cmath>
+#include <iostream>
 
 class Vec2 {
 public:
@@ -45,6 +46,10 @@ public:
 	template<typename T>
 	friend inline Vec2 operator/(const T scalar, const Vec2& vec) {
 		return vec / scalar;
+	}
+
+	friend inline std::ostream& operator<<(std::ostream& os, const Vec2& vec) {
+		return os << "Vec2(" << vec.x << ", " << vec.y << ")";
 	}
 
 	// Utility functions
@@ -104,6 +109,10 @@ public:
 		return vec / scalar;
 	}
 
+	friend inline std::ostream& operator<<(std::ostream& os, const Vec3& vec) {
+		return os << "Vec3(" << vec.x << ", " << vec.y << ", " << vec.z << ")";
+	}
+
 	// Utility functions
 	float length() const;
 	Vec3 normalised() const;
@@ -159,6 +168,10 @@ public:
 	template<typename T>
 	friend inline Vec4 operator/(const T scalar, const Vec4& vec) {
 		return vec / scalar;
+	}
+
+	friend inline std::ostream& operator<<(std::ostream& os, const Vec4& vec) {
+		return os << "Vec4(" << vec.x << ", " << vec.y << ", " << vec.z << ", " << vec.w << ")";
 	}
 
 	// Utility functions

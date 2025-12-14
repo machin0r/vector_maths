@@ -53,6 +53,13 @@ public:
 		return !(*this == other);
 	}
 
+	friend inline std::ostream& operator<<(std::ostream& os, const Mat3& mat) {
+		os << "Mat3:\n";
+		for (int i = 0; i < 9; i += 3) {
+			os << "[" << mat.m[i] << ", " << mat.m[i + 1] << ", " << mat.m[i + 2] << "]\n";
+		}
+		return os;
+	}
 
 	Vec3 operator*(const Vec3& other) const;
 	Mat3 operator*(const Mat3& other) const;
@@ -116,6 +123,14 @@ public:
 
 	inline bool operator!=(const Mat4& other) const {
 		return !(*this == other);
+	}
+
+	friend inline std::ostream& operator<<(std::ostream& os, const Mat4& mat) {
+		os << "Mat4:\n";
+		for (int i = 0; i < 16; i += 4) {
+			os << "[" << mat.m[i] << ", " << mat.m[i + 1] << ", " << mat.m[i + 2] << ", " << mat.m[i + 3] << "]\n";
+		}
+		return os;
 	}
 
 

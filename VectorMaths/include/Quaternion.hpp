@@ -51,6 +51,10 @@ public:
         return !(*this == q);
     }
 
+    friend inline std::ostream& operator<<(std::ostream& os, const Quaternion& q) {
+        return os << "Quat(" << q.w << ", " << q.x << ", " << q.y << ", " << q.z << ")";
+    }
+
     Quaternion operator*(const Quaternion& q) const; // Quaternion multiplication
 
     // Utility functions
