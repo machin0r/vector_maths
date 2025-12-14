@@ -13,7 +13,7 @@ Vec2 Vec2::normalised() const {
 	float magnitude = length();
 
 	if (magnitude < 1e-6f) {
-		return *this;
+		return Vec2(0.0f, 0.0f);
 	}
 
 	return Vec2((x / magnitude), (y / magnitude));
@@ -51,7 +51,7 @@ Vec3 Vec3::normalised() const {
 	float magnitude = length();
 
 	if (magnitude < 1e-6f) {
-		return *this;
+		return Vec3(0.0f, 0.0f, 0.0f);
 	}
 
 	return Vec3((x / magnitude), (y / magnitude), (z/magnitude));
@@ -92,7 +92,7 @@ Vec4 Vec4::normalised() const {
 	float magnitude = length();
 
 	if (magnitude < 1e-6f) {
-		return *this;
+		return Vec4(0.0f, 0.0f, 0.0f, 0.0f);
 	}
 
 	return Vec4((x / magnitude), (y / magnitude), (z / magnitude), (w / magnitude));

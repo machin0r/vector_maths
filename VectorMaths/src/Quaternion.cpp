@@ -28,6 +28,11 @@ float Quaternion::length() const {
 
 Quaternion Quaternion::normalised() const {
 	float magnitude = length();
+
+	if (magnitude < 1e-6f) {
+		return Quaternion(1.0f, 0.0f, 0.0f, 0.0f);
+	}
+
 	return Quaternion((w / magnitude), (x / magnitude), (y / magnitude), (z / magnitude));
 }
 
