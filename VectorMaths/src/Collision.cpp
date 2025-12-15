@@ -96,3 +96,18 @@ bool rayIntersectsSphere(const Ray& ray, const Sphere& sphere, float& distance) 
 	}
 	return true;
 }
+
+bool rayIntersectsPlane(const Ray& ray, const Vec3& planeNormal, const Vec3& planePoint, float& distance) {
+	float dotProduct = planeNormal.dot(ray.direction);
+	if (std::abs(dotProduct) < 1e-6f) {
+		return false;
+	}
+
+	Vec3 diff = planePoint - ray.origin;
+	float t = diff.dot(planeNormal) / dotProduct;
+	if (t < 0) {
+		return false;
+	}
+	distance = t;
+	return true;
+}

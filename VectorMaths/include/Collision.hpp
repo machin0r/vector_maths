@@ -49,3 +49,4 @@ public:
 
 // Intersection functions
 bool rayIntersectsSphere(const Ray& ray, const Sphere& sphere, float& distance);
+bool rayIntersectsPlane(const Ray& ray, const Vec3& planeNormal, const Vec3& planePoint, float& distance);
