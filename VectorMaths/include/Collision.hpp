@@ -46,3 +46,6 @@ public:
 	// Operations
 	bool contains(const Vec3& point) const;
 };
+
+// Intersection functions
+bool rayIntersectsSphere(const Ray& ray, const Sphere& sphere, float& distance);

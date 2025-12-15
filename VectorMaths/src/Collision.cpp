@@ -70,3 +70,29 @@ Sphere::Sphere(const Vec3& center, const float radius)
 bool Sphere::contains(const Vec3& point) const {
 	return (point - center).length() <= radius;
 }
+
+bool rayIntersectsSphere(const Ray& ray, const Sphere& sphere, float& distance) {
+	float raySphereDot = (sphere.center - ray.origin).dot(ray.direction);
+	if (raySphereDot < 0) {
+		return false;
+	}
+	Vec3 p = ray.origin + (ray.direction * raySphereDot);
+	float d = (p - sphere.center).length();
+	if (d > sphere.radius) {
+		return false;
+	}
+	float offset = std::sqrt(std::pow(sphere.radius, 2) - std::pow(d, 2));
+	float t1 = raySphereDot - offset;
+	
+	if (t1 < 0) {
+		float t2 = raySphereDot + offset;
+		if (t2 < 0) {
+			return false;
+		}
+		distance = t2;
+	}
+	else {
+		distance = t1; 
+	}
+	return true;
+}
