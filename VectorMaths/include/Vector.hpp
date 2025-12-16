@@ -56,6 +56,7 @@ public:
 
 	// Utility functions
 	float length() const;
+	float lengthSquared() const;
 	Vec2 normalised() const;
 	float dot(const Vec2& other) const;
 	float cross(const Vec2& other) const;
@@ -118,6 +119,7 @@ public:
 
 	// Utility functions
 	float length() const;
+	float lengthSquared() const;
 	Vec3 normalised() const;
 	float dot(const Vec3& other) const;
 	Vec3 cross(const Vec3& other) const;
@@ -180,6 +182,7 @@ public:
 
 	// Utility functions
 	float length() const;
+	float lengthSquared() const;
 	Vec4 normalised() const;
 	float dot(const Vec4& other) const;
 

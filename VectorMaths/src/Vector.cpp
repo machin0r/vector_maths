@@ -9,6 +9,10 @@ float Vec2::length() const {
 	return std::sqrt((x * x) + (y * y));
 }
 
+float Vec2::lengthSquared() const {
+	return x * x + y * y;
+}
+
 Vec2 Vec2::normalised() const {
 	float magnitude = length();
 
@@ -45,6 +49,10 @@ Vec3::Vec3(float x, float y, float z) : x(x), y(y), z(z) {}
 
 float Vec3::length() const {
 	return std::sqrt((x * x) + (y * y) + (z * z));
+}
+
+float Vec3::lengthSquared() const {
+	return x * x + y * y + z * z;
 }
 
 Vec3 Vec3::normalised() const {
@@ -86,6 +94,10 @@ Vec4::Vec4(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {}
 
 float Vec4::length() const {
 	return std::sqrt((x * x) + (y * y) + (z * z) + (w * w));
+}
+
+float Vec4::lengthSquared() const {
+	return x * x + y * y + z * z + w * w;
 }
 
 Vec4 Vec4::normalised() const {
