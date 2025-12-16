@@ -1,3 +1,8 @@
+/**
+ * @file Collision.cpp
+ * @brief Implementation of collision detection primitives and intersection tests
+ */
+
 #include "../include/Collision.hpp"
 #include <cmath>
 
@@ -71,28 +76,43 @@ bool Sphere::contains(const Vec3& point) const {
 	return (point - center).length() <= radius;
 }
 
+/**
+ * Ray-sphere intersection using geometric method:
+ * 1. Project sphere center onto ray
+ * 2. Find closest point on ray to sphere center
+ * 3. Check if distance from closest point to center <= radius
+ * 4. Calculate intersection distance using Pythagorean theorem
+ */
 bool rayIntersectsSphere(const Ray& ray, const Sphere& sphere, float& distance) {
+	// Early out: sphere behind ray
 	float raySphereDot = (sphere.center - ray.origin).dot(ray.direction);
 	if (raySphereDot < 0) {
 		return false;
 	}
+
+	// Find closest point on ray to sphere center
 	Vec3 p = ray.origin + (ray.direction * raySphereDot);
 	float d = (p - sphere.center).length();
+
+	// Check if ray misses sphere
 	if (d > sphere.radius) {
 		return false;
 	}
+
+	// Calculate intersection distances (near and far)
 	float offset = std::sqrt(std::pow(sphere.radius, 2) - std::pow(d, 2));
-	float t1 = raySphereDot - offset;
-	
+	float t1 = raySphereDot - offset;  // Near intersection
+
+	// Handle ray origin inside sphere
 	if (t1 < 0) {
-		float t2 = raySphereDot + offset;
+		float t2 = raySphereDot + offset;  // Far intersection
 		if (t2 < 0) {
-			return false;
+			return false;  // Both intersections behind ray
 		}
 		distance = t2;
 	}
 	else {
-		distance = t1; 
+		distance = t1;  // Use near intersection
 	}
 	return true;
 }
@@ -112,35 +132,38 @@ bool rayIntersectsPlane(const Ray& ray, const Vec3& planeNormal, const Vec3& pla
 	return true;
 }
 
+/**
+ * Ray-AABB intersection using the slab method:
+ * Treats the AABB as the intersection of three axis-aligned slabs.
+ * Finds the entry and exit t values for each slab, then checks if
+ * the ray passes through all three slabs simultaneously.
+ */
 bool rayIntersectsAABB(const Ray& ray, const AABB& box, float& distance) {
+	// Calculate t values for each axis slab
 	float tMinX = (box.min.x - ray.origin.x) / ray.direction.x;
 	float tMaxX = (box.max.x - ray.origin.x) / ray.direction.x;
 
-	float tMinY = (box.min.y - ray.origin.x) / ray.direction.y;
-	float tMaxY = (box.max.y - ray.origin.x) / ray.direction.y;
+	float tMinY = (box.min.y - ray.origin.y) / ray.direction.y;
+	float tMaxY = (box.max.y - ray.origin.y) / ray.direction.y;
 
-	float tMinZ = (box.min.z - ray.origin.x) / ray.direction.z;
-	float tMaxZ = (box.max.z - ray.origin.x) / ray.direction.z;
+	float tMinZ = (box.min.z - ray.origin.z) / ray.direction.z;
+	float tMaxZ = (box.max.z - ray.origin.z) / ray.direction.z;
 
-	if (ray.direction.x < 0) {
-		std::swap(tMinX, tMaxX);
-	}
-	if (ray.direction.y < 0) {
-		std::swap(tMinY, tMaxY);
-	}
-	if (ray.direction.z < 0) {
-		std::swap(tMinZ, tMaxZ);
-	}
+	// Swap if ray direction is negative (ensures tMin < tMax)
+	if (ray.direction.x < 0) std::swap(tMinX, tMaxX);
+	if (ray.direction.y < 0) std::swap(tMinY, tMaxY);
+	if (ray.direction.z < 0) std::swap(tMinZ, tMaxZ);
 
+	// Find the latest entry and earliest exit
 	float tMin = std::max(std::max(tMinX, tMinY), tMinZ);
 	float tMax = std::min(std::min(tMaxX, tMaxY), tMaxZ);
 
-	// Check for intersection
-	if (tMin > tMax) return false;
-	if (tMax < 0) return false;
+	// No intersection if entry is after exit or box is entirely behind ray
+	if (tMin > tMax) return false;  // Ray misses box
+	if (tMax < 0) return false;     // Box behind ray
 
+	// Prefer near intersection if in front of ray
 	distance = (tMin >= 0) ? tMin : tMax;
-
 	return true;
 }
 

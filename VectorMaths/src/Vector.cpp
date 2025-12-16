@@ -1,4 +1,9 @@
-﻿#include "../include/Vector.hpp"
+﻿/**
+ * @file Vector.cpp
+ * @brief Implementation of 2D, 3D, and 4D vector classes
+ */
+
+#include "../include/Vector.hpp"
 #include <cmath>
 
 // Vec2

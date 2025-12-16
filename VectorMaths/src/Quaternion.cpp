@@ -1,3 +1,8 @@
+/**
+ * @file Quaternion.cpp
+ * @brief Implementation of Quaternion class
+ */
+
 #include "../include/Quaternion.hpp"
 #include "../include/Vector.hpp"
 #include "../include/Matrix.hpp"

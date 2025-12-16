@@ -1,3 +1,8 @@
+/**
+ * @file Matrix.cpp
+ * @brief Implementation of 3x3 and 4x4 matrix classes
+ */
+
 #include "../include/Matrix.hpp"
 #include "../include/Quaternion.hpp"
 

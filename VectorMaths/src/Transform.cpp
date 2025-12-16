@@ -1,3 +1,8 @@
+/**
+ * @file Transform.cpp
+ * @brief Implementation of transform class
+ */
+
 #include "../include/Vector.hpp"
 #include "../include/Matrix.hpp"
 #include "../include/Quaternion.hpp"
