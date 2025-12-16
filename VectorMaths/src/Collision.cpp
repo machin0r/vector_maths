@@ -155,3 +155,9 @@ bool pointInAABB(const Vec3& point, const AABB& box) {
 		(point.y <= box.max.y && point.y >= box.min.y) &&
 		(point.z <= box.max.z && point.z >= box.min.z);
 }
+
+bool sphereIntersectsSphere(const Sphere& a, const Sphere& b) {
+	Vec3 diff = (a.center - b.center);
+	float radiusSum = a.radius + b.radius;
+	return diff.lengthSquared() <= (radiusSum * radiusSum);
+}

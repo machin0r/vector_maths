@@ -53,3 +53,4 @@ bool rayIntersectsPlane(const Ray& ray, const Vec3& planeNormal, const Vec3& pla
 bool rayIntersectsAABB(const Ray& ray, const AABB& box, float& distance);
 bool aabbIntersectsAABB(const AABB& a, const AABB& b);
 bool pointInAABB(const Vec3& point, const AABB& box);
+bool sphereIntersectsSphere(const Sphere& a, const Sphere& b);
