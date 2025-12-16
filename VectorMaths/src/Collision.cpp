@@ -111,3 +111,35 @@ bool rayIntersectsPlane(const Ray& ray, const Vec3& planeNormal, const Vec3& pla
 	distance = t;
 	return true;
 }
+
+bool rayIntersectsAABB(const Ray& ray, const AABB& box, float& distance) {
+	float tMinX = (box.min.x - ray.origin.x) / ray.direction.x;
+	float tMaxX = (box.max.x - ray.origin.x) / ray.direction.x;
+
+	float tMinY = (box.min.y - ray.origin.x) / ray.direction.y;
+	float tMaxY = (box.max.y - ray.origin.x) / ray.direction.y;
+
+	float tMinZ = (box.min.z - ray.origin.x) / ray.direction.z;
+	float tMaxZ = (box.max.z - ray.origin.x) / ray.direction.z;
+
+	if (ray.direction.x < 0) {
+		std::swap(tMinX, tMaxX);
+	}
+	if (ray.direction.y < 0) {
+		std::swap(tMinY, tMaxY);
+	}
+	if (ray.direction.z < 0) {
+		std::swap(tMinZ, tMaxZ);
+	}
+
+	float tMin = std::max(std::max(tMinX, tMinY), tMinZ);
+	float tMax = std::min(std::min(tMaxX, tMaxY), tMaxZ);
+
+	// Check for intersection
+	if (tMin > tMax) return false;
+	if (tMax < 0) return false;
+
+	distance = (tMin >= 0) ? tMin : tMax;
+
+	return true;
+}
