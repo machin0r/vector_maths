@@ -52,6 +52,7 @@ public:
     Quaternion(float w, float x, float y, float z);
 
     // Basic operations
+
     template<typename T>
     inline Quaternion operator*(const T scalar) const {
         return Quaternion(w * scalar, x * scalar, y * scalar, z * scalar);
@@ -76,6 +77,19 @@ public:
 
     Quaternion operator+(const Quaternion q) const {
         return Quaternion(w + q.w, x + q.x, y + q.y, z + q.z);
+    }
+
+    Quaternion operator-() const {
+        return Quaternion(-w, -x, -y, -z);
+    }
+
+    Quaternion operator-(const Quaternion& q) const {
+        return Quaternion(
+            w - q.w,
+            x - q.x,
+            y - q.y,
+            z - q.z
+        );
     }
 
     inline bool operator==(const Quaternion& q) const {
@@ -159,5 +173,5 @@ public:
      * @param t Interpolation parameter (0 = a, 1 = b)
      * @return Interpolated quaternion with constant angular velocity
      */
-    static Quaternion slerp(const Quaternion& a, const Quaternion& b, float t);
+    static Quaternion slerp(const Quaternion& a, Quaternion b, float t);
 };

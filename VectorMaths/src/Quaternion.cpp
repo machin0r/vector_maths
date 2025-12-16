@@ -8,6 +8,7 @@
 #include "../include/Matrix.hpp"
 
 #include <cmath>
+#include <algorithm>
 
 // Quaternion
 Quaternion::Quaternion() : w(1.0f), x(0.0f), y(0.0f), z(0.0f) {}
@@ -17,12 +18,12 @@ Quaternion Quaternion::operator*(const Quaternion& q) const {
 	/*
 	* base_quat = w + xi + yj + zk
 	* input_quat = q.w + q.xi + q.yj + q.zk
-	* output_quat = to + t1i + t2j + t3k
+	* output_quat = t0o + t1i + t2j + t3k
 	*/
-	float t0 = (w * q.w) - (x * q.x) - (y * q.y) - (z * q.z);
-	float t1 = (w * q.x) + (x * q.w) - (y * q.z) + (z * q.y);
-	float t2 = (w * q.y) + (x * q.z) + (y * q.w) - (z * q.x);
-	float t3 = (w * q.z) - (x * q.y) + (y * q.x) + (z * q.w);
+	float t0 = (q.w * w) - (q.x * x) - (q.y * y) - (q.z * z);
+	float t1 = (q.w * x) + (q.x * w) + (q.y * z) - (q.z * y);
+	float t2 = (q.w * y) - (q.x * z) + (q.y * w) + (q.z * x);
+	float t3 = (q.w * z) + (q.x * y) - (q.y * x) + (q.z * w);
 
 	return Quaternion(t0, t1, t2, t3);
 }
@@ -60,18 +61,36 @@ Mat4 Quaternion::toRotationMatrix() const {
 }
 
 Vec3 Quaternion::toEulerAngles() const {
-	float roll = std::atan(2 * ((w * x) + (y * z))) / (1 - (2 * ((x * x) + (y * y))));
-	float pitch = std::asin(2 * ((w * y) - (z * x)));
-	float yaw = std::atan(2 * ((w * z) + (x * y))) / (1 - (2 * ((y * y) + (z * z))));
+	// Roll (x-axis rotation)
+	float sinr_cosp = 2.0f * (w * x + y * z);
+	float cosr_cosp = 1.0f - 2.0f * (x * x + y * y);
+	float roll = std::atan2(sinr_cosp, cosr_cosp);
+
+	// Pitch (y-axis rotation)
+	float sinp = 2.0f * (w * y - z * x);
+	float pitch = std::asin(sinp);
+
+	// Yaw (z-axis rotation)
+	float siny_cosp = 2.0f * (w * z + x * y);
+	float cosy_cosp = 1.0f - 2.0f * (y * y + z * z);
+	float yaw = std::atan2(siny_cosp, cosy_cosp);
 
 	return Vec3(roll, pitch, yaw);
 }
 
 Quaternion Quaternion::fromEulerAngles(float pitch, float yaw, float roll) {
-	float w = (std::cos(roll / 2) * std::cos(pitch / 2) * std::cos(yaw / 2)) + (std::sin(roll / 2) * std::sin(pitch / 2) * std::sin(yaw / 2));
-	float x = (std::sin(roll / 2) * std::cos(pitch / 2) * std::cos(yaw / 2)) + (std::cos(roll / 2) * std::sin(pitch / 2) * std::sin(yaw / 2));
-	float y = (std::cos(roll / 2) * std::sin(pitch / 2) * std::cos(yaw / 2)) + (std::sin(roll / 2) * std::cos(pitch / 2) * std::sin(yaw / 2));
-	float z = (std::cos(roll / 2) * std::cos(pitch / 2) * std::sin(yaw / 2)) + (std::sin(roll / 2) * std::sin(pitch / 2) * std::cos(yaw / 2));
+	// Standard ZYX (Yaw-Pitch-Roll) Tait-Bryan angles
+	float cy = std::cos(yaw * 0.5f);
+	float sy = std::sin(yaw * 0.5f);
+	float cp = std::cos(pitch * 0.5f);
+	float sp = std::sin(pitch * 0.5f);
+	float cr = std::cos(roll * 0.5f);
+	float sr = std::sin(roll * 0.5f);
+
+	float w = cr * cp * cy + sr * sp * sy;
+	float x = sr * cp * cy - cr * sp * sy;
+	float y = cr * sp * cy + sr * cp * sy;
+	float z = cr * cp * sy - sr * sp * cy;
 
 	return Quaternion(w, x, y, z);
 }
@@ -164,18 +183,35 @@ Vec3 Quaternion::rotateVector(const Vec3& v) const {
 
 	Quaternion vectorQ(0, v.x, v.y, v.z);
 
-	Quaternion result = unit_quat * vectorQ * unit_quat.conjugate();
+	// Note: Due to reversed multiplication convention (q1*q2 means apply q2 then q1),
+	// we write conjugate * v * quat to get the mathematical result quat * v * conjugate
+	Quaternion result = unit_quat.conjugate() * vectorQ * unit_quat;
 
 	return Vec3(result.x, result.y, result.z);
 }
 
-Quaternion Quaternion::slerp(const Quaternion& a, const Quaternion& b, float t) {
-	float angle = std::acos(a.w * b.w) + (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
+Quaternion Quaternion::slerp(const Quaternion& a, Quaternion b, float t) {
+	float dot = a.w * b.w + a.x * b.x + a.y * b.y + a.z * b.z;
+	if (dot < 0.0f) {
+		dot = -dot;
+		b = -b;
+	}
+	
+	dot = std::clamp(dot, -1.0f, 1.0f);
 
-	float first_factor = std::sin((1 - t) * angle) / std::sin(angle);
-	float second_factor = std::sin(t * angle) / std::sin(angle);
+	// If very close, use lerp
+	if (dot > 0.9995f) {
+		Quaternion result = a + t * (b - a);
+		return result;
+	}
 
-	return Quaternion((first_factor * a) + (second_factor * b));
+	float angle = std::acos(dot);
+	float sin_angle = std::sin(angle);
+
+	float w1 = std::sin((1.0f - t) * angle) / sin_angle;
+	float w2 = std::sin(t * angle) / sin_angle;
+
+	return (w1 * a) + (w2 * b);
 }
 
 
