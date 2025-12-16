@@ -149,3 +149,9 @@ bool aabbIntersectsAABB(const AABB& a, const AABB& b) {
 		(a.min.y <= b.max.y && a.max.y >= b.min.y) &&
 		(a.min.z <= b.max.z && a.max.z >= b.min.z);
 }
+
+bool pointInAABB(const Vec3& point, const AABB& box) {
+	return (point.x <= box.max.x && point.x >= box.min.x) &&
+		(point.y <= box.max.y && point.y >= box.min.y) &&
+		(point.z <= box.max.z && point.z >= box.min.z);
+}
