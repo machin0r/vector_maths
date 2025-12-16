@@ -26,3 +26,30 @@ add_library(VectorMaths ${SOURCES} ${HEADERS})
 
 # Set include directories
 target_include_directories(VectorMaths PUBLIC include)
+
+# ========== Testing ==========
+
+# Option to enable/disable tests
+option(BUILD_TESTS "Build unit tests" ON)
+
+if(BUILD_TESTS)
+    # Enable testing
+    enable_testing()
+
+    # Fetch Google Test
+    include(FetchContent)
+    FetchContent_Declare(
+        googletest
+        GIT_REPOSITORY https://github.com/google/googletest.git
+        GIT_TAG v1.14.0
+    )
+
+    # For Windows: Prevent overriding parent project's compiler/linker settings
+    set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+
+    # Make Google Test available
+    FetchContent_MakeAvailable(googletest)
+
+    # Add test subdirectory
+    add_subdirectory(tests)
+endif()
